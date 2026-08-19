@@ -8,28 +8,27 @@ import "./App.css";
 import Home from "./pages/Home";
 import TableOfWords from "./pages/TableOfWords";
 import RedactWords from "./pages/RedactWords";
+import CheckGame from "./pages/CheckGame";
 
 function App() {
   const [words, setWords] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadWords() {
-      console.log("Починаємо завантаження слів");
-
       const { data, error } = await supabase
         .from("words")
         .select("*")
         .order("word", { ascending: true });
 
-      console.log("DATA:", data);
-      console.log("ERROR:", error);
-
       if (error) {
         console.error("Помилка завантаження:", error);
+        setLoading(false);
         return;
       }
 
       setWords(data);
+      setLoading(false);
     }
 
     loadWords();
@@ -43,6 +42,10 @@ function App() {
         <Route
           path="/redactwords"
           element={<RedactWords words={words} setWords={setWords} />}
+        />
+        <Route
+          path="/checkgame"
+          element={<CheckGame words={words} loading={loading} />}
         />
       </Routes>
     </HashRouter>

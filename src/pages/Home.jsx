@@ -10,6 +10,10 @@ function Home() {
       <br />
 
       <Link to="/redactwords">Редагування слів</Link>
+
+      <br />
+
+      <Link to="/checkgame">CheckGame</Link>
     </div>
   );
 }
