@@ -1,3 +1,5 @@
+import { supabase } from "../supabase";
+
 import { Link } from "react-router-dom";
 
 import { useState } from "react";
@@ -11,23 +13,45 @@ function RedactWords({ words, setWords }) {
 
   const tags = ["Дієслово", "Тварь"];
 
-  function addWord() {
+  async function addWord() {
     if (!word.trim() || !translation.trim()) {
       return;
     }
 
-    const newWord = {
-      id: Date.now(),
-      word: word.trim(),
-      translation: translation.trim(),
-      tag: tag,
-    };
+    const { data, error } = await supabase
+      .from("words")
+      .insert([
+        {
+          word: word.trim(),
+          translation: translation.trim(),
+          tag: tag,
+        },
+      ])
+      .select();
 
-    setWords([...words, newWord]);
+    if (error) {
+      console.error("Помилка додавання:", error);
+      return;
+    }
 
+    console.log("Додано:", data);
+
+    setWords([...words, data[0]]);
+    
     setWord("");
     setTranslation("");
     setTag("Дієслово");
+  }
+
+  async function deleteWord(id) {
+    const { error } = await supabase.from("words").delete().eq("id", id);
+
+    if (error) {
+      console.error("Помилка видалення:", error);
+      return;
+    }
+
+    setWords(words.filter((item) => item.id !== id));
   }
 
   return (
@@ -64,13 +88,7 @@ function RedactWords({ words, setWords }) {
       {sortedWords.map((item) => (
         <div key={item.id}>
           {item.word} — {item.translation} — {item.tag}
-          <button
-            onClick={() =>
-              setWords(words.filter((word) => word.id !== item.id))
-            }
-          >
-            Видалити
-          </button>
+          <button onClick={() => deleteWord(item.id)}>Видалити</button>
         </div>
       ))}
     </div>

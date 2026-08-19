@@ -1,15 +1,34 @@
+import { supabase } from "./supabase";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import wordsData from "./words";
 
 import Home from "./pages/Home";
 import TableOfWords from "./pages/TableOfWords";
 import RedactWords from "./pages/RedactWords";
 
 function App() {
-  const [words, setWords] = useState(wordsData);
+  const [words, setWords] = useState([]);
+
+  useEffect(() => {
+    async function loadWords() {
+      const { data, error } = await supabase
+        .from("words")
+        .select("*")
+        .order("word", { ascending: true });
+
+      if (error) {
+        console.error("Помилка завантаження:", error);
+        return;
+      }
+
+      setWords(data);
+    }
+
+    loadWords();
+  }, []);
 
   return (
     <BrowserRouter>
