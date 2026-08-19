@@ -11,7 +11,21 @@ function RedactWords({ words, setWords }) {
 
   const sortedWords = [...words].sort((a, b) => a.word.localeCompare(b.word));
 
-  const tags = ["Дієслово", "Тварь"];
+  const tags = [
+    "Дієслово",
+    "Прикметник",
+    "Прислівник",
+    "Займенник",
+    "Службове",
+    "Питальне",
+    "Люди",
+    "Час",
+    "Їжа",
+    "Будинок",
+    "Вулиця",
+    "Природа",
+    "Інше",
+  ];
 
   async function addWord() {
     if (!word.trim() || !translation.trim()) {
@@ -37,7 +51,7 @@ function RedactWords({ words, setWords }) {
     console.log("Додано:", data);
 
     setWords([...words, data[0]]);
-    
+
     setWord("");
     setTranslation("");
     setTag("Дієслово");
