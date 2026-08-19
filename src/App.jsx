@@ -1,6 +1,6 @@
 import { supabase } from "./supabase";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import "./App.css";
@@ -14,10 +14,15 @@ function App() {
 
   useEffect(() => {
     async function loadWords() {
+      console.log("Починаємо завантаження слів");
+
       const { data, error } = await supabase
         .from("words")
         .select("*")
         .order("word", { ascending: true });
+
+      console.log("DATA:", data);
+      console.log("ERROR:", error);
 
       if (error) {
         console.error("Помилка завантаження:", error);
@@ -31,7 +36,7 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tableofwords" element={<TableOfWords words={words} />} />
@@ -40,7 +45,7 @@ function App() {
           element={<RedactWords words={words} setWords={setWords} />}
         />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
