@@ -289,40 +289,41 @@ function CheckGame({ words = [], loading }) {
 
   return (
     <div>
-      <h1>Перевірка слів</h1>
+      <h1>Вибери правильну відповідь</h1>
 
       <p>
         {currentIndex + 1} / {gameWords.length}
       </p>
 
       <h2>{question}</h2>
+      <div className="buttons_options">
+        {options.map((option) => {
+          const isCorrect = option === correctAnswer;
 
-      {options.map((option) => {
-        const isCorrect = option === correctAnswer;
+          const isSelected = option === selectedAnswer;
 
-        const isSelected = option === selectedAnswer;
+          let className = "";
 
-        let className = "";
-
-        if (selectedAnswer !== null) {
-          if (isCorrect) {
-            className = "correct";
-          } else if (isSelected) {
-            className = "wrong";
+          if (selectedAnswer !== null) {
+            if (isCorrect) {
+              className = "correct";
+            } else if (isSelected) {
+              className = "wrong";
+            }
           }
-        }
 
-        return (
-          <button
-            key={option}
-            className={className}
-            onClick={() => handleAnswer(option)}
-            disabled={selectedAnswer !== null}
-          >
-            {option}
-          </button>
-        );
-      })}
+          return (
+            <button
+              key={option}
+              className={`${className} button_option`}
+              onClick={() => handleAnswer(option)}
+              disabled={selectedAnswer !== null}
+            >
+              {option}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
