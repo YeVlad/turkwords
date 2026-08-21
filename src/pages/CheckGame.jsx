@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function shuffleArray(array) {
   const shuffled = [...array];
@@ -43,6 +44,8 @@ function CheckGame({ words = [], loading }) {
     "Будинок",
     "Вулиця",
     "Природа",
+    "Вирази",
+    "Привітання",
     "Інше",
   ];
 
@@ -152,7 +155,7 @@ function CheckGame({ words = [], loading }) {
     // Через 2 секунди наступне питання
     setTimeout(() => {
       setCurrentIndex((prev) => prev + 1);
-    }, 2000);
+    }, 500);
   }
 
   // Завантаження
@@ -172,21 +175,24 @@ function CheckGame({ words = [], loading }) {
   if (!gameStarted) {
     return (
       <div>
+        {" "}
+        <Link to="/">На головну</Link>
         <h1>Перевірка слів</h1>
-
         <h3>Категорія</h3>
-
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+        <select
+          className="inputstyle"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
           {categories.map((item) => (
             <option key={item} value={item}>
               {item}
             </option>
           ))}
         </select>
-
         <h3>Напрямок</h3>
-
         <select
+          className="inputstyle"
           value={direction}
           onChange={(e) => setDirection(e.target.value)}
         >
@@ -194,10 +200,9 @@ function CheckGame({ words = [], loading }) {
 
           <option value="ua-tr">🇺🇦 Українська → 🇹🇷 Турецька</option>
         </select>
-
         <h3>Кількість слів</h3>
-
         <select
+          className="inputstyle"
           value={questionCount}
           onChange={(e) => setQuestionCount(Number(e.target.value))}
         >
@@ -217,14 +222,15 @@ function CheckGame({ words = [], loading }) {
             50
           </option>
         </select>
-
         <p>Доступно слів: {availableWords.length}</p>
-
         {availableWords.length < 6 && (
           <p>У цій категорії недостатньо слів. Потрібно мінімум 6.</p>
         )}
-
-        <button onClick={startGame} disabled={availableWords.length < 6}>
+        <button
+          className="bigsmash"
+          onClick={startGame}
+          disabled={availableWords.length < 6}
+        >
           Почати гру
         </button>
       </div>
@@ -242,14 +248,11 @@ function CheckGame({ words = [], loading }) {
 
     return (
       <div>
+        <Link to="/">На головну</Link>
         <h1>Гру завершено!</h1>
-
         <h2>Правильно: {correctAnswers}</h2>
-
         <h2>Неправильно: {total - correctAnswers}</h2>
-
         <h2>Результат: {percentage}%</h2>
-
         {wrongAnswers.length > 0 && (
           <div>
             <h2>Помилки:</h2>
@@ -261,8 +264,8 @@ function CheckGame({ words = [], loading }) {
             ))}
           </div>
         )}
-
         <button
+          className="bigsmash"
           onClick={() => {
             setGameStarted(false);
             setCurrentIndex(0);

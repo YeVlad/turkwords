@@ -5,15 +5,15 @@ function Home() {
     <div>
       <h1>Home</h1>
 
-      <Link to="/tableofwords">Таблиця слів</Link>
+      <Link className="menu_button" to="/tableofwords">Таблиця слів</Link>
 
       <br />
 
-      <Link to="/redactwords">Редагування слів</Link>
+      <Link className="menu_button" to="/redactwords">Редагування слів</Link>
 
       <br />
 
-      <Link to="/checkgame">CheckGame</Link>
+      <Link className="menu_button" to="/checkgame">CheckGame</Link>
     </div>
   );
 }

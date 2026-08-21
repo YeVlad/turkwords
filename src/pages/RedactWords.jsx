@@ -24,6 +24,8 @@ function RedactWords({ words, setWords }) {
     "Будинок",
     "Вулиця",
     "Природа",
+    "Вирази",
+    "Привітання",
     "Інше",
   ];
 
@@ -71,40 +73,50 @@ function RedactWords({ words, setWords }) {
   return (
     <div>
       <Link to="/">На головну</Link>
-      <h1>Редагування слів</h1>
+      <div className="menu">
+        <h1>Редагування слів</h1>
 
-      <input
-        type="text"
-        placeholder="Оригінал"
-        value={word}
-        onChange={(e) => setWord(e.target.value)}
-      />
+        <input
+          className="inputstyle"
+          type="text"
+          placeholder="Оригінал"
+          value={word}
+          onChange={(e) => setWord(e.target.value)}
+        />
 
-      <input
-        type="text"
-        placeholder="Переклад"
-        value={translation}
-        onChange={(e) => setTranslation(e.target.value)}
-      />
+        <input
+          className="inputstyle"
+          type="text"
+          placeholder="Переклад"
+          value={translation}
+          onChange={(e) => setTranslation(e.target.value)}
+        />
 
-      <select value={tag} onChange={(e) => setTag(e.target.value)}>
-        {tags.map((tag) => (
-          <option key={tag} value={tag}>
-            {tag}
-          </option>
-        ))}
-      </select>
+        <select
+          className="inputstyle"
+          value={tag}
+          onChange={(e) => setTag(e.target.value)}
+        >
+          {tags.map((tag) => (
+            <option key={tag} value={tag}>
+              {tag}
+            </option>
+          ))}
+        </select>
 
-      <button onClick={addWord}>Додати</button>
-
+        <button className="bigsmash" onClick={addWord}>
+          Додати
+        </button>
+      </div>
       <hr />
-
-      {sortedWords.map((item) => (
-        <div key={item.id}>
-          {item.word} — {item.translation} — {item.tag}
-          <button onClick={() => deleteWord(item.id)}>Видалити</button>
-        </div>
-      ))}
+      <div className="deleteitems">
+        {sortedWords.map((item) => (
+          <div key={item.id}>
+            {item.word} — {item.translation} — {item.tag}
+            <button onClick={() => deleteWord(item.id)}>Видалити</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

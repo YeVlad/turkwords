@@ -9,3 +9,41 @@
   font-size: 16px;
   border-radius: 8px;
 }
+
+.menu_button {
+  display: block;
+  padding: 15px 25px;
+  margin: 10px 0;
+
+  text-decoration: none;
+  text-align: center;
+
+  border-radius: 8px;
+
+  background-color: #333;
+  color: white;
+
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inputstyle {
+  font-size: 20px;
+  padding: 10px 10px;
+}
+
+.bigsmash {
+  font-size: 20px;
+  padding: 10px 10px;
+}
+
+.deleteitems {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
