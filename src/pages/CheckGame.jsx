@@ -29,6 +29,7 @@ function CheckGame({ words = [], loading }) {
   // Результат
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState([]);
+  const [answerResults, setAnswerResults] = useState([]);
 
   // Категорії
   const tags = [
@@ -127,6 +128,7 @@ function CheckGame({ words = [], loading }) {
 
     setCorrectAnswers(0);
     setWrongAnswers([]);
+    setAnswerResults([]);
 
     setSelectedAnswer(null);
 
@@ -134,7 +136,6 @@ function CheckGame({ words = [], loading }) {
   }
 
   function handleAnswer(answer) {
-    // Не дозволяємо натискати кілька разів
     if (selectedAnswer !== null) {
       return;
     }
@@ -146,16 +147,27 @@ function CheckGame({ words = [], loading }) {
     const correctAnswer =
       direction === "tr-ua" ? currentWord.translation : currentWord.word;
 
-    if (answer === correctAnswer) {
+    const isCorrect = answer === correctAnswer;
+
+    if (isCorrect) {
       setCorrectAnswers((prev) => prev + 1);
     } else {
       setWrongAnswers((prev) => [...prev, currentWord]);
     }
 
-    // Через 2 секунди наступне питання
+    setAnswerResults((prev) => [
+      ...prev,
+      {
+        word: currentWord,
+        userAnswer: answer,
+        correctAnswer: correctAnswer,
+        isCorrect: isCorrect,
+      },
+    ]);
+
     setTimeout(() => {
       setCurrentIndex((prev) => prev + 1);
-    }, 500);
+    }, 1000);
   }
 
   // Завантаження
@@ -175,7 +187,6 @@ function CheckGame({ words = [], loading }) {
   if (!gameStarted) {
     return (
       <div>
-        {" "}
         <Link to="/">На головну</Link>
         <h1>Перевірка слів</h1>
         <h3>Категорія</h3>
@@ -247,23 +258,63 @@ function CheckGame({ words = [], loading }) {
     const percentage = Math.round((correctAnswers / total) * 100);
 
     return (
-      <div>
-        <Link to="/">На головну</Link>
-        <h1>Гру завершено!</h1>
-        <h2>Правильно: {correctAnswers}</h2>
-        <h2>Неправильно: {total - correctAnswers}</h2>
-        <h2>Результат: {percentage}%</h2>
-        {wrongAnswers.length > 0 && (
-          <div>
-            <h2>Помилки:</h2>
+      <div className="game_result">
+        <Link className="back_button" to="/">
+          На головну
+        </Link>
 
-            {wrongAnswers.map((word) => (
-              <div key={word.id}>
-                {word.word} — {word.translation}
-              </div>
-            ))}
+        <h1>Гру завершено!</h1>
+
+        <div className="score">
+          <div>
+            <span>Правильно</span>
+            <strong className="score_correct">{correctAnswers}</strong>
           </div>
-        )}
+
+          <div>
+            <span>Неправильно</span>
+            <strong className="score_wrong">{total - correctAnswers}</strong>
+          </div>
+
+          <div>
+            <span>Результат</span>
+            <strong>{percentage}%</strong>
+          </div>
+        </div>
+
+        <h2>Результати</h2>
+
+        <div className="answer_results">
+          {answerResults.map((result, index) => (
+            <div
+              key={result.word.id}
+              className={
+                result.isCorrect
+                  ? "result_item result_correct"
+                  : "result_item result_wrong"
+              }
+            >
+              <div className="result_number">{index + 1}</div>
+
+              <div className="result_content">
+                <strong>
+                  {direction === "tr-ua"
+                    ? result.word.word
+                    : result.word.translation}
+                </strong>
+
+                <span>Твоя відповідь: {result.userAnswer}</span>
+
+                {!result.isCorrect && (
+                  <span>Правильна відповідь: {result.correctAnswer}</span>
+                )}
+              </div>
+
+              <div className="result_icon">{result.isCorrect ? "✓" : "✕"}</div>
+            </div>
+          ))}
+        </div>
+
         <button
           className="bigsmash"
           onClick={() => {
@@ -277,7 +328,6 @@ function CheckGame({ words = [], loading }) {
       </div>
     );
   }
-
   // =========================
   // ПОТОЧНЕ ПИТАННЯ
   // =========================
@@ -299,33 +349,29 @@ function CheckGame({ words = [], loading }) {
       </p>
 
       <h2>{question}</h2>
-      <div className="buttons_options">
-        {options.map((option) => {
-          const isCorrect = option === correctAnswer;
-
-          const isSelected = option === selectedAnswer;
-
-          let className = "";
-
-          if (selectedAnswer !== null) {
-            if (isCorrect) {
-              className = "correct";
-            } else if (isSelected) {
-              className = "wrong";
-            }
+      <div className="select_answer">
+        <select
+          className={
+            selectedAnswer === null
+              ? ""
+              : selectedAnswer === correctAnswer
+                ? "correct"
+                : "wrong"
           }
+          value={selectedAnswer ?? ""}
+          onChange={(e) => handleAnswer(e.target.value)}
+          disabled={selectedAnswer !== null}
+        >
+          <option value="" disabled>
+            Вибери відповідь...
+          </option>
 
-          return (
-            <button
-              key={option}
-              className={`${className} button_option`}
-              onClick={() => handleAnswer(option)}
-              disabled={selectedAnswer !== null}
-            >
+          {options.map((option) => (
+            <option key={option} value={option}>
               {option}
-            </button>
-          );
-        })}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );
