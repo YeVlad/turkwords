@@ -13,7 +13,7 @@ function shuffleArray(array) {
   return shuffled;
 }
 
-function CheckGame({ words = [], loading }) {
+function CheckGame({ words = [], loading, allTags }) {
   // Налаштування гри
   const [category, setCategory] = useState("Усі");
   const [direction, setDirection] = useState("tr-ua");
@@ -32,23 +32,7 @@ function CheckGame({ words = [], loading }) {
   const [answerResults, setAnswerResults] = useState([]);
 
   // Категорії
-  const tags = [
-    "Дієслово",
-    "Прикметник",
-    "Прислівник",
-    "Займенник",
-    "Службове",
-    "Питальне",
-    "Люди",
-    "Час",
-    "Їжа",
-    "Будинок",
-    "Вулиця",
-    "Природа",
-    "Вирази",
-    "Привітання",
-    "Інше",
-  ];
+  const tags = allTags;
 
   const categories = ["Усі", ...tags];
 

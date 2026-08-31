@@ -34,18 +34,46 @@ function App() {
     loadWords();
   }, []);
 
+  const allTags = [
+    "Дієслово",
+    "Прикметник",
+    "Прислівник",
+    "Займенник",
+    "Службове",
+    "Питальне",
+    "Люди",
+    "Час",
+    "Їжа",
+    "Будинок",
+    "Вулиця",
+    "Природа",
+    "Вирази",
+    "Привітання",
+    "Кольори",
+    "Характеристика людини",
+    "Цифри",
+    "Інше",
+  ];
+
   return (
     <HashRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/tableofwords" element={<TableOfWords words={words} />} />
+        <Route
+          path="/tableofwords"
+          element={<TableOfWords words={words} allTags={allTags} />}
+        />
         <Route
           path="/redactwords"
-          element={<RedactWords words={words} setWords={setWords} />}
+          element={
+            <RedactWords words={words} setWords={setWords} allTags={allTags} />
+          }
         />
         <Route
           path="/checkgame"
-          element={<CheckGame words={words} loading={loading} />}
+          element={
+            <CheckGame words={words} loading={loading} allTags={allTags} />
+          }
         />
       </Routes>
     </HashRouter>

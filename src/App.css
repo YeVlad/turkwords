@@ -189,3 +189,118 @@
     width: 100%;
   }
 }
+
+.words_table {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.back_button {
+  display: inline-block;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #333;
+}
+
+.words_table h1 {
+  margin-bottom: 25px;
+}
+
+/* Фільтр */
+
+.tag_filter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 25px;
+}
+
+.tag_filter label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.tag_filter select {
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Список слів */
+
+.words_list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.word_item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  padding: 15px;
+
+  border-radius: 12px;
+  background: #f1f1f1;
+}
+
+.word_content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.word_content strong {
+  font-size: 19px;
+}
+
+.word_content span {
+  font-size: 16px;
+}
+
+.word_tag {
+  padding: 6px 10px;
+
+  border-radius: 8px;
+
+  background: #333;
+  color: white;
+
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* Телефон */
+
+@media (max-width: 600px) {
+  .words_table {
+    padding: 15px;
+  }
+
+  .word_item {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .word_content strong {
+    font-size: 17px;
+  }
+
+  .word_content span {
+    font-size: 14px;
+  }
+
+  .word_tag {
+    font-size: 13px;
+  }
+
+  .tag_filter select {
+    font-size: 16px;
+  }
+}

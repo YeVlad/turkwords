@@ -4,30 +4,14 @@ import { Link } from "react-router-dom";
 
 import { useState } from "react";
 
-function RedactWords({ words, setWords }) {
+function RedactWords({ words, setWords, allTags }) {
   const [word, setWord] = useState("");
   const [translation, setTranslation] = useState("");
   const [tag, setTag] = useState("Дієслово");
 
   const sortedWords = [...words].sort((a, b) => a.word.localeCompare(b.word));
 
-  const tags = [
-    "Дієслово",
-    "Прикметник",
-    "Прислівник",
-    "Займенник",
-    "Службове",
-    "Питальне",
-    "Люди",
-    "Час",
-    "Їжа",
-    "Будинок",
-    "Вулиця",
-    "Природа",
-    "Вирази",
-    "Привітання",
-    "Інше",
-  ];
+  const tags = allTags;
 
   async function addWord() {
     if (!word.trim() || !translation.trim()) {
